@@ -10,6 +10,7 @@ mixSVG = function(count,
                   sig = 0.05){
 
   n = ncol(count)
+  ngene = nrow(count)
   if(!is.null(X) & is.null(colnames(X))){colnames(X) = paste0("x", 1:ncol(X))}
 
   if(libsize_inc & is.null(libsize)){
@@ -40,7 +41,7 @@ mixSVG = function(count,
 
   X = cbind("intercept" = rep(1,n), X)
   registerDoParallel(ncore)
-  results <- foreach(gi = 1:nrow(count)) %dopar% {
+  results <- foreach(gi = 1:ngene) %dopar% {
     # gi = 1;
     set.seed(gi)
     y = as.matrix(count[gi,])
@@ -56,6 +57,12 @@ mixSVG = function(count,
 
   mixSVG_output = list(results=results, pval_all=pval_all, pval_sig=pval_sig)
 
+  cat("\nmixSVG for Detecting Spatially Variable (SV) Genes with ST Data")
+  cat('\nNumber of genes:', ngene)
+  cat('\nNumber of spots:', n)
+  cat('\nNumber of detected SV genes': nrow(mixSVG_output$pval_sig)
+      ' (significance level for adjusted P-values:)', sig )
+  
   return(mixSVG_output)
 
 }
