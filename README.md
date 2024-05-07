@@ -64,19 +64,17 @@ A matrix of P-values for the detected spatially variable genes (whose adjusted P
 ```
 library(mixSVG)
 
-# example data of Human Breast Cancer
+# Example data of Human Breast Cancer
 data(example)
 dim(rawcount) # the expression count matrix of 14,789 genes and 251 spots 
 dim(rawcoord) # the matrix of two-dimensional spatial coordinates for 251 spots.
 
-
 # Data preprocessing
-
-# Select spots with at least one expression count
+## Select spots with at least one expression count
 keep_spot <- which(colSums(rawcount) >= 1)
 coord = rawcoord[keep_spot,]
 
-# Select genes expressed in at least 2% of spots  
+## Select genes expressed in at least 2% of spots  
 count = rawcount[rowMeans(rawcount>0) >= 0.02, keep_spot]
 
 # Run mixSVG
