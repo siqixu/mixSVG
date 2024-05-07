@@ -77,7 +77,7 @@ coord = rawcoord[keep_spot,]
 ## Select genes expressed in at least 2% of spots  
 count = rawcount[rowMeans(rawcount>0) >= 0.02, keep_spot]
 
-# Run mixSVG (It takes around 2.5 mins with 20 cores, and around 28 mins with a single core.)
+# Run mixSVG (It takes around 2.5 mins with 20 cores, and around 30 mins with a single core.)
 mixSVG_output = mixSVG(count, coord, ncore = 20)
 
 # P-values and adjusted P-values (by Benjamini-Hochberg method) for all genes
