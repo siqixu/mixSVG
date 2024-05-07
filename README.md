@@ -58,7 +58,7 @@ Significance level for dectecting spatially variable genes based on the adjusted
 A matrix of P-values for all genes. The first column contains the original P-values of mixSVG, and the second column contains the P-values adjusted by Benjamini-Hochberg method.
 
 `pval_sig`:	
-A matrix of P-values for the detected spatially variable genes based on the adjusted P-values of Benjamini-Hochberg method. The first column contains the original P-values of mixSVG, and the second column contains the P-values adjusted by Benjamini-Hochberg method.
+A matrix of P-values for the detected spatially variable genes (whose adjusted P-values > `sig`). The first column contains the original P-values of mixSVG, and the second column contains the P-values adjusted by Benjamini-Hochberg method.
 
 
 
