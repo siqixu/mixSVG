@@ -29,7 +29,7 @@ A n by 2 numeric matrix of two-dimensioanl spatial coordinates for n spots.
 A n by p numeric matrix of p covariates for n spots.
 
 `libsize_inc`: 
-Whether to account for the library size `libsize_inc=TRUE` by default.
+Whether to account for the library size. `libsize_inc=TRUE` by default.
 
 `libsize`: 
 A numeric vector of the library size for n spots. If `libsize_inc=TRUE`, then libsize will be the total expression counts of all genes on each spot by default. If `libsize_inc=FALSE`, then libsize=1 by default.
