@@ -11,6 +11,22 @@ mixSVG = function(count,
 
   n = ncol(count)
   ngene = nrow(count)
+
+  if(n!=nrow(coord)){
+    cat('The matrics count and coord do not have the same numbers of spots')
+    break
+  }
+  if(!is.null(X)){
+    if(n!=nrow(X)){
+      cat('The matrics count and X do not have the same numbers of spots')
+      break
+    }
+    if(ncol(X)!=2){
+      cat('The matrix X should contains two columns for two-dimensioanl spatial coordinates.')
+      break
+    }
+  }
+  
   if(!is.null(X) & is.null(colnames(X))){colnames(X) = paste0("x", 1:ncol(X))}
 
   if(libsize_inc & is.null(libsize)){
