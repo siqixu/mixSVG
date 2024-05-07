@@ -31,7 +31,7 @@ The mixSVG function implements an omnibus test to detect spatially variable gene
 \value{
 \item{results}{A list of results for all genes, including:
 \itemize{
-\item \code{model0}: The estimation results under the null model, which contain the estimated coefficients of covariates (beta), the estimated variance of residual (tau), indicator of the estimation convergence (converge), numbder of iterations (iter);
+\item \code{model0}: The estimation results under the null model, which contain the estimated coefficients of covariates (\code{beta}), the estimated variance of residual (\code{tau}), indicator of the estimation convergence (\code{converge}), numbder of iterations (\code{iter});
 \item \code{pval}: The combined P-value of mixSVG based on 13 kinds of transformations of spatial coordinates accounting for different spatial patterns;
 \item  \code{pval_pat}: A 13 by 3 matrix of P-values of mixSVG, where 13 rows represent 13 transformations of spatial coordinates, and three columns represent the test for mixed effect, fixed effect and random effect, respectively.
 }
