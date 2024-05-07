@@ -76,7 +76,7 @@ mixSVG = function(count,
   cat("\nmixSVG for Detecting Spatially Variable (SV) Genes with ST Data")
   cat('\nNumber of genes:', ngene)
   cat('\nNumber of spots:', n)
-  cat('\nNumber of detected SV genes': nrow(mixSVG_output$pval_sig)
+  cat('\nNumber of detected SV genes': nrow(mixSVG_output$pval_sig),
       ' (significance level for adjusted P-values:)', sig )
   
   return(mixSVG_output)
