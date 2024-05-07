@@ -48,11 +48,11 @@ Significance level for dectecting spatially variable genes based on the adjusted
 ## Value
 `results`:	A list of results for all genes, including:
 
-`model0`: The estimation results under the null model, which contain the estimated coefficients of covariates (beta), the estimated variance of residual (tau), indicator of the estimation convergence (converge), numbder of iterations (iter);
+       * `model0`: The estimation results under the null model, which contain the estimated coefficients of covariates (beta), the estimated variance of residual (tau), indicator of the estimation convergence (converge), numbder of iterations (iter);
 
-`pval`: The combined P-value of mixSVG based on 13 kinds of transformations of spatial coordinates accounting for different spatial patterns;
+       * `pval`: The combined P-value of mixSVG based on 13 kinds of transformations of spatial coordinates accounting for different spatial patterns;
 
-`pval_pat`: A 13 by 3 matrix of P-values of mixSVG, where 13 rows represent 13 transformations of spatial coordinates, and three columns represent the test for mixed effect, fixed effect and random effect, respectively.
+       * `pval_pat`: A 13 by 3 matrix of P-values of mixSVG, where 13 rows represent 13 transformations of spatial coordinates, and three columns represent the test for mixed effect, fixed effect and random effect, respectively.
 
 `pval_all`:	
 A matrix of P-values for all genes. The first column contains the original P-values of mixSVG, and the second column contains the P-values adjusted by Benjamini-Hochberg method.
