@@ -5,7 +5,7 @@ The "mixSVG" package implements an omnibus test to detect spatially variable gen
 The "mixSVG" package depends on R (>= 3.5.0). Use the following command in R to install the "mixSVG" package:
 ```
 library(devtools)
-install_github("siqixu/mixSVG",ref="main") # install the "DeepMed" package
+install_github("siqixu/mixSVG",ref="main") # install the "mixSVG" package
 ```
 ## Usage
 ```
