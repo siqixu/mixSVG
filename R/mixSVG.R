@@ -11,7 +11,7 @@ mixSVG = function(count,
 
   n = ncol(count)
   ngene = nrow(count)
-
+  
   if(n!=nrow(coord)){
     cat('The matrics count and coord do not have the same numbers of spots')
     break
@@ -26,6 +26,9 @@ mixSVG = function(count,
       break
     }
   }
+  cat("\nDetecting Spatially Variable (SV) Genes by mixSVG")
+  cat('\nNumber of genes:', ngene)
+  cat('\nNumber of spots:', n)
   
   if(!is.null(X) & is.null(colnames(X))){colnames(X) = paste0("x", 1:ncol(X))}
 
@@ -73,11 +76,8 @@ mixSVG = function(count,
 
   mixSVG_output = list(results=results, pval_all=pval_all, pval_sig=pval_sig)
 
-  cat("\nmixSVG for Detecting Spatially Variable (SV) Genes with ST Data")
-  cat('\nNumber of genes:', ngene)
-  cat('\nNumber of spots:', n)
   cat('\nNumber of detected SV genes:', nrow(mixSVG_output$pval_sig),
-      ' (significance level for adjusted P-values:)', sig )
+      ' (significance level for adjusted P-values:', sig, ')' )
   
   return(mixSVG_output)
 
