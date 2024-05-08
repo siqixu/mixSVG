@@ -85,6 +85,27 @@ View(mixSVG_output$pval_all)
 
 # P-values and adjusted P-values (by Benjamini-Hochberg method) for the detected spatially variable genes (with adjusted P-values >0.05)
 View(mixSVG_output$pval_sig)
+
+
+# On the other hand, one may investigate the robustness of mixSVG under the null by:
+
+## 1. Generate the null (i.e., all genes are non-spatially variable) by shuffling the locations of spots
+n = ncol(count)
+pos = colnames(count)
+perm_index = sample(1:n, n, replace = F)
+count0 = count[, perm_index]
+colnames(count0) = pos
+
+## 2. run mixSVG
+mixSVG_output0 = mixSVG(count0, coord, ncore = 20)
+
+## 3. Generate the Q-Q plot for P-values under the null
+library(gaston)
+qqplot.pvalues(mixSVG_output0$pval_all[,1], cex = 0.1)
+
+## Note: If the Q-Q plot indicates that mixSVG inflates under the null, it is suggested to decrease vtest_zero_prop (e.g., 0.98) or increase the gene selection threshold, e.g., select genes expressed in at least 5% of spots.  
+
+
 ```
 
 
