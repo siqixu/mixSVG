@@ -64,7 +64,7 @@ A matrix of P-values for the detected spatially variable genes (whose adjusted P
 ```
 library(mixSVG)
 
-# Example data of Human Breast Cancer
+# Example data of human breast cancer
 data(example)
 dim(rawcount) # the expression count matrix of 14,789 genes and 251 spots 
 dim(rawcoord) # the matrix of two-dimensional spatial coordinates for 251 spots.
