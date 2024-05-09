@@ -80,7 +80,7 @@ mixSVG = function(count,
 
   cat('\nNumber of detected SV genes:', nrow(mixSVG_output$pval_sig),
       '\n(significance level for adjusted P-values:', sig, ')' )
-  cat('\n-----------------------------------------------------\n')
+  cat('\n-------------------------------------------------------\n')
   return(mixSVG_output)
 
 }
