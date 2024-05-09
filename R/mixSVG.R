@@ -26,7 +26,9 @@ mixSVG = function(count,
       break
     }
   }
+  cat('\n-------------------------------------------------------')
   cat("\nDetecting Spatially Variable (SV) Genes by mixSVG")
+  cat('\n-------------------------------------------------------')
   cat('\nNumber of genes:', ngene)
   cat('\nNumber of spots:', n)
   
@@ -77,8 +79,8 @@ mixSVG = function(count,
   mixSVG_output = list(results=results, pval_all=pval_all, pval_sig=pval_sig)
 
   cat('\nNumber of detected SV genes:', nrow(mixSVG_output$pval_sig),
-      ' (significance level for adjusted P-values:', sig, ')' )
-  
+      '\n(significance level for adjusted P-values:', sig, ')' )
+  cat('\n-----------------------------------------------------\n')
   return(mixSVG_output)
 
 }
