@@ -73,7 +73,7 @@ mixSVG = function(count,
   pval = unlist(lapply(results, function(x){x$pval}))
   pval_adj = p.adjust(pval, method="BH")
 
-  pval_all = cbind(pval, pval_adj)
+  pval_all = cbind.data.frame(pval, pval_adj)
   pval_sig = pval_all[pval_adj < sig,]
 
   mixSVG_output = list(results=results, pval_all=pval_all, pval_sig=pval_sig)
