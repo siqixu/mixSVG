@@ -45,8 +45,8 @@ mixSVG = function(count,
   s_trans = coord
   for(transfunc in c('gaussian', 'cosine')){
     for(c in c(0, -1, 1)){
-      for(q in c(0.2, 0.8)){
-        s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, q = q, c = c))
+      for(l in c(0.5, 1)){
+        s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, l = l, c = c))
       }
     }
   }
