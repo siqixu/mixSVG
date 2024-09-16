@@ -43,8 +43,10 @@ mixSVG = function(count,
 
   # transformation of spatial coordinates
   s_trans = coord
+  c1 = c(0,-1,1)
+  c2 = c(0,0.5,1)
   for(transfunc in c('gaussian', 'cosine')){
-    for(c in c(0, -1, 1)){
+    for(c in ifelse(transfunc=='gaussian', c1, c2)){
       for(l in c(0.5, 1)){
         s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, l = l, c = c))
       }
