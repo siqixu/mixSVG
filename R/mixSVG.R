@@ -7,7 +7,8 @@ mixSVG = function(count,
                   vtest_zero_prop = 0.995,
                   ncore = 10,
                   n_perm = 1000,
-                  sig = 0.05){
+                  sig = 0.05,
+                 c_gau, c_cos, l_gau, l_cos){
 
   n = ncol(count)
   ngene = nrow(count)
@@ -43,11 +44,13 @@ mixSVG = function(count,
 
   # transformation of spatial coordinates
   s_trans = coord
-  c1 = c(0,-1,1)
-  c2 = c(0,0.5,1)
+  #c_gau = c(0,-1,1)
+  #c_cos = c(0,0.5,1)
+  #l_gau = c(0.5, 1)
+  #l_cos = c(0.5, 1)
   for(transfunc in c('gaussian', 'cosine')){
-    for(c in ifelse(transfunc=='gaussian', c1, c2)){
-      for(l in c(0.5, 1)){
+    for(c in ifelse(transfunc=='gaussian', c_gau, c_cos)){
+      for(l in ifelse(transfunc=='gaussian', l_gau, l_cos)){
         s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, l = l, c = c))
       }
     }
