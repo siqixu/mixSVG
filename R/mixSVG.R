@@ -44,6 +44,15 @@ mixSVG = function(count,
 
   # transformation of spatial coordinates
   s_trans = coord
+# cx_cos_0.2 = 4.478
+# cx_cos_0.8 = 1.53
+# cy_cos_0.2 = 7.35
+# cy_cos_0.8 = 1.48
+# 
+# c_cos = rbind(c(-cx_cos_0.2,0,cx_cos_0.2),
+#               c(-cx_cos_0.8,0,cx_cos_0.8),
+#               c(-cy_cos_0.2,0,cy_cos_0.2),
+#               c(-cy_cos_0.8,0,cy_cos_0.8))
 
 for(transfunc in c('gaussian', 'cosine')){
   for(q in c(0.2, 0.8)){
