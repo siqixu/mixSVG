@@ -44,17 +44,13 @@ mixSVG = function(count,
 
   # transformation of spatial coordinates
   s_trans = coord
-  #c_gau = c(0,-1,1)
-  #c_cos = c(0,0.5,1)
-  #l_gau = c(0.5, 1)
-  #l_cos = c(0.5, 1)
-  for(transfunc in c('gaussian', 'cosine')){
-    for(c in ifelse(transfunc=='gaussian', c_gau, c_cos)){
-      for(l in ifelse(transfunc=='gaussian', l_gau, l_cos)){
-        s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, l = l, c = c))
-      }
+for(transfunc in c('gaussian', 'cosine')){
+  for(c in c(0, -1, 1)){
+    for(q in c(0.2, 0.8)){
+      s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, q = q, c = c))
     }
   }
+}
 
   pat_idx = 1:(ncol(s_trans)/2)
 
