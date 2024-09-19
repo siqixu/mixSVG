@@ -46,12 +46,29 @@ mixSVG = function(count,
   s_trans = coord
 
 for(transfunc in c('gaussian', 'cosine')){
-  for(c in ifelse(transfunc=='gaussian', c_gau, c_cos)){
-    for(q in c(0.2, 0.8)){
-      s_trans = cbind(s_trans, apply(coord, 2, transcoord_func, transfunc = transfunc, q = q, c = c))
+  for(q in c(0.2, 0.8)){
+    
+    if(transfunc=='gaussian'){cx = cy = c_gau
+    }else{
+      cx_cos_0.2 = c_cos[,1]
+      cx_cos_0.8 = c_cos[,2]
+      cy_cos_0.2 = c_cos[,3]
+      cy_cos_0.8 = c_cos[,4]
+      
+      if(q==0.2){cx = cx_cos_0.2;cy = cy_cos_0.2}
+      if(q==0.8){cx = cx_cos_0.8;cy = cy_cos_0.8}
+    }
+    
+  for(ci in 1:length(cx)){
+      
+      s_trans = cbind(s_trans, 
+                      transcoord_func(coord[,1], transfunc = transfunc, q = q, c = cx[ci]),
+                      transcoord_func(coord[,2], transfunc = transfunc, q = q, c = cy[ci]))
+ 
     }
   }
 }
+
 
   pat_idx = 1:(ncol(s_trans)/2)
 
