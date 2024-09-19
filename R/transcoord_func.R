@@ -7,7 +7,7 @@ transcoord_func = function (si, transfunc = "gaussian", q = 0.2, c = 0)
     out <- exp(-(si + c)^2/(2 * l^2))
   }
   if (transfunc == "cosine") {
-    out <- cos(2 * pi * si/l + pi*c)
+    out <- cos(2 * pi * si/l + pi*c/2)
   }
   return(out)
 }
