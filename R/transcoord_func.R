@@ -1,4 +1,4 @@
-transcoord_func = function (si, transfunc = "gaussian", l = 0.2, c = 0)
+transcoord_func = function (si, transfunc = "gaussian", l = 0.5, c = 0)
 {
   si <- scale(si)
   if (transfunc == "gaussian") {
