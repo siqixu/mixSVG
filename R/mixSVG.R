@@ -73,8 +73,7 @@ for(transfunc in c('gaussian', 'cosine')){
   X = cbind("intercept" = rep(1,n), X)
   registerDoParallel(ncore)
   results <- foreach(gi = 1:ngene) %dopar% {
-    # gi = 1;
-    set.seed(gi)
+    # gi = 1
     y = as.matrix(count[gi,])
     results = mixSVG_main(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_prop)
   }
