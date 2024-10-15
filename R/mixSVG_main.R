@@ -10,8 +10,11 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
   beta = par[1:ncol(X)]
   w = model0$w
   vw = model0$vw
+  XVivX_iv = solve(t(X/vw)%*%X)
   res = (w - X %*% beta)/vw
   res2 = res^2
+  res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
+  
 
   test_func = function(i_pat){
     # i_pat = 1
@@ -23,22 +26,24 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
 
     # test for fix effect
     Tb = c(sum(res*s1), sum(res*s2))
-
     ZivX = t(s/vw)%*%X
-    XVivX_iv = solve(t(X/vw)%*%X)
     Vb = t(s/vw)%*%s - ZivX%*%XVivX_iv%*%t(ZivX)
     Tb =  t(Tb) %*% solve(Vb) %*% t(t(Tb))
     pval_b = pchisq(Tb, 2, lower.tail = F)
 
     if(vtest){
-      # test for randome effect
-      Tv = sum(res2*s1_sq) + sum(res2*s2_sq)
-      Tv_perm = apply(perm_sample, 2,FUN = function(perm){
-        res_perm = res[perm]
-        res2_perm = res2[perm]
-        Tv_perm = sum(res2_perm*s1_sq) + sum(res2_perm*s2_sq)
-        return(Tv_perm)
-      })
+      # test for random effect
+      s_sq = s1_sq + s2_sq
+      Tv = sum(res2*s_sq) 
+      Tv_perm = colSums(res2_perm*s_sq) 
+      
+     # Tv = sum(res2*s1_sq) + sum(res2*s2_sq)
+     # Tv_perm = apply(perm_sample, 2,FUN = function(perm){
+     #   res_perm = res[perm]
+     #   res2_perm = res2[perm]
+     #   Tv_perm = sum(res2_perm*s1_sq) + sum(res2_perm*s2_sq)
+     #   return(Tv_perm)
+     # })
 
       ETv = mean(Tv_perm)
       DTv = var(Tv_perm)
