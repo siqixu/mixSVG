@@ -1,5 +1,5 @@
 
-mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_prop) {
+mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop) {
 
   vtest = (mean(y==0) < vtest_zero_prop)
 
@@ -78,7 +78,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, perm_sample, libsize, vtest_zero_
   T_final = mean(tan(pi*(0.5-pval)))
   pval = 1 - pcauchy(T_final)
 
-  out = list(model0 = par, pval = pval,  pval_pat = pval_pat)
+  out = list(model0 = par, pval = pval,  pval_pat = pval_pat, pattern = pat_name)
   return(out)
 }
 
