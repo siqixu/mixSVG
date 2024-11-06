@@ -49,8 +49,9 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
       DTv = var(Tv_perm)
       k = DTv/(2 * ETv)
       df = 2*ETv^2/(DTv)
-      pval_v = c(pchisq(Tv/k, df, lower.tail = FALSE), pchisq(Tv/k, df, lower.tail = TRUE))
-      pval_v = 2*min(pval_v)
+      pval_v = pchisq(Tv/k, df, lower.tail = FALSE)
+      #pval_v = c(pchisq(Tv/k, df, lower.tail = FALSE), pchisq(Tv/k, df, lower.tail = TRUE))
+      #pval_v = 2*min(pval_v)
 
       # the omnibus test of mixed effects
       pval = c(pval_b, pval_v)
