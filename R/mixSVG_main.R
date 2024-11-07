@@ -3,11 +3,6 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
 
   vtest = (mean(y==0) < vtest_zero_prop)
 
-    perm_sample = apply(t(1:1000), 2, FUN = function(i){
-    set.seed(i)
-    sample(1:length(y), size = length(y), replace = F)
-  })
-  
   # estimation under the null
   model_init = glm(y ~  X - 1 + offset(log(libsize)), family = poisson)
   model0 = fit_glmm(y, X, model_init, libsize)
