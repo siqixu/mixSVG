@@ -5,7 +5,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
 
     perm_sample = apply(t(1:1000), 2, FUN = function(i){
     set.seed(i)
-    sample(1:n, size = n, replace = F)
+    sample(1:length(y), size = length(y), replace = F)
   })
   
   # estimation under the null
