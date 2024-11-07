@@ -3,7 +3,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
 
   vtest = (mean(y==0) < vtest_zero_prop)
 
-    perm_sample = apply(t(1:n_perm), 2, FUN = function(i){
+    perm_sample = apply(t(1:1000), 2, FUN = function(i){
     set.seed(i)
     sample(1:n, size = n, replace = F)
   })
