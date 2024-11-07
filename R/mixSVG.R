@@ -75,7 +75,7 @@ for(transfunc in c('gaussian', 'cosine')){
   # generate permutation samples
   perm_sample = apply(t(1:n_perm), 2, FUN = function(i){
     set.seed(i)
-    sample(1:n, size = n, replace = T)
+    sample(1:n, size = n, replace = F)
   })
 
 
