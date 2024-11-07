@@ -17,11 +17,11 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
 
   tau = par['tau']
   mu = model0$mu
-  #res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
-  #w_perm = (1/mu)*(y-mu) + as.vector(X %*% beta) + tau*res_perm 
-  #beta_perm = XVivX_iv %*% t(X/vw) %*% w_perm
-  #res_perm = (w_perm - X %*% beta_perm)/vw
-  #res2_perm = res_perm^2
+  res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
+  w_perm = as.vector((1/mu)*(y-mu) + X %*% beta) + tau*res_perm 
+  beta_perm = XVivX_iv %*% t(X/vw) %*% w_perm
+  res_perm = (w_perm - X %*% beta_perm)/vw
+  res2_perm = res_perm^2
   
 
   test_func = function(i_pat){
