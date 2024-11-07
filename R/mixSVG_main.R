@@ -36,14 +36,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
       s_sq = s1_sq + s2_sq
       Tv = sum(res2*s_sq) 
       Tv_perm = colSums(res2_perm*s_sq) 
-      
-     # Tv = sum(res2*s1_sq) + sum(res2*s2_sq)
-     # Tv_perm = apply(perm_sample, 2,FUN = function(perm){
-     #   res_perm = res[perm]
-     #   res2_perm = res2[perm]
-     #   Tv_perm = sum(res2_perm*s1_sq) + sum(res2_perm*s2_sq)
-     #   return(Tv_perm)
-     # })
+   
 
       ETv = mean(Tv_perm)
       DTv = var(Tv_perm)
@@ -78,7 +71,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
   T_final = mean(tan(pi*(0.5-pval)))
   pval = 1 - pcauchy(T_final)
 
-  out = list(model0 = par, pval = pval,  pval_pat = pval_pat, pattern = pat_name)
+  out = list(model0 = par, pval = pval,  pval_pat = pval_pat, pattern = pat_name, res=res)
   return(out)
 }
 
