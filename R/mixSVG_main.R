@@ -16,6 +16,7 @@ mixSVG_main = function(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, v
   #res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
   res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
+  tau = par['tau']
   eps_perm = tau*res_perm
   res_perm = (as.vector((1/mu)*(y-mu)) + eps_perm )/vw
   res2_perm = res_perm^2
