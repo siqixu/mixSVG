@@ -6,7 +6,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     beta = par[1:ncol(X)]
     w = model0$w
     vw = model0$vw
-    XVivX_iv = solve(t(X/vw) %*% X)
     res = (w - X %*% beta)/vw
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
