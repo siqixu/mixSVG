@@ -21,8 +21,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
         ZivX = t(s/vw) %*% X
         Vb = t(s/vw) %*% s - ZivX %*% XVivX_iv %*% t(ZivX)
         Tb = t(Tb) %*% solve(Vb) %*% t(t(Tb))
-        pval_v = c(pchisq(Tv/k, df, lower.tail = FALSE), pchisq(Tv/k, df, lower.tail = TRUE))
-        pval_v = 2*min(pval_v)
+        pval_b = pchisq(Tb, 2, lower.tail = F)
       
         if (vtest) {
             s_sq = s1_sq + s2_sq
@@ -32,7 +31,9 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
             DTv = var(Tv_perm)
             k = DTv/(2 * ETv)
             df = 2 * ETv^2/(DTv)
-            pval_v = pchisq(Tv/k, df, lower.tail = FALSE)
+            pval_v = c(pchisq(Tv/k, df, lower.tail = FALSE), pchisq(Tv/k, df, lower.tail = TRUE))
+            pval_v = 2*min(pval_v)
+            
             pval = c(pval_b, pval_v)
             pval[which(pval == 0)] <- 5.55e-17
             pval[which((1 - pval) < 0.001)] <- 0.99
