@@ -48,7 +48,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
         return(c(pval, pval_b, pval_v,  Tv, k, df))
     }
     pval_pat = t(apply(t(pat_idx), 2, FUN = test_func))
-    colnames(pval_pat)[,1:3] = c("pval_omn", "pval_b", "pval_v")
+    colnames(pval_pat)[1:3] = c("pval_omn", "pval_b", "pval_v")
     pval = pval_pat[, "pval_omn"]
     pval[which(pval == 0)] <- 5.55e-17
     pval[which((1 - pval) < 0.001)] <- 0.99
