@@ -23,7 +23,7 @@ for(i_perm in 1:ncol(perm_sample)){
   XVivX_iv_perm = solve(t(X/vw_perm[,i_perm])%*%X)
   beta_perm = XVivX_iv_perm %*% t(X/vw_perm[,i_perm]) %*% w_perm[,i_perm]
   res_perm = (w_perm[,i_perm] - X %*% beta_perm)/vw_perm[,i_perm]
-  res2_perm = c(res2_perm, res_perm^2)
+  res2_perm = cbind(res2_perm, res_perm^2)
 }
 
   
