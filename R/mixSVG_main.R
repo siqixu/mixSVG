@@ -19,7 +19,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     vw_perm = 1/mu_perm + tau
     w_perm = as.vector(X %*% beta) + res_perm*vw_perm 
     res2_perm = numeric()
-for(i_perm in 1:nrow(perm_sample)){
+for(i_perm in 1:ncol(perm_sample)){
   XVivX_iv_perm = solve(t(X/vw_perm[,i_perm])%*%X)
   beta_perm = XVivX_iv_perm %*% t(X/vw_perm[,i_perm]) %*% w_perm[,i_perm]
   res_perm = (w_perm[,i_perm] - X %*% beta_perm)/vw_perm[,i_perm]
