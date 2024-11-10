@@ -22,7 +22,7 @@ w_perm = (1/mu_perm)*(y_perm-mu_perm) + as.vector(X %*% beta) + eps_perm
 res2_perm = numeric()
 for(i_perm in 1:nrow(perm_sample)){
   XVivX_iv_perm = solve(t(X/vw_perm[,i_perm])%*%X)
-  beta_perm = XVivX_iv_perm %*% t(X/vw_perm[,i_perm]) %*% w_perm[,i_perm]
+  beta_perm = XVivX_iv %*% t(X/vw_perm[,i_perm]) %*% w_perm[,i_perm]
   res_perm = (w_perm[,i_perm] - X %*% beta_perm)/vw_perm[,i_perm]
   res2_perm = cbind(res2_perm, res_perm^2)
 }
