@@ -17,7 +17,7 @@ eps_perm = tau*res_perm
 eta_perm = as.vector(X %*% beta)  + eps_perm + log(libsize)
 mu_perm = exp(eta_perm)
 vw_perm = 1/mu_perm + tau
-y_perm = matrix(rpois(n, mu_perm),  nrow = nrow(perm_sample))
+y_perm = matrix(rpois( nrow(perm_sample)* ncol(perm_sample), mu_perm),  nrow = nrow(perm_sample))
 w_perm = (1/mu_perm)*(y_perm-mu_perm) + as.vector(X %*% beta) + eps_perm
 beta_perm = XVivX_iv %*% (t(X) %*% (w_perm/vw_perm))
 res_perm = (w_perm - X %*% beta_perm)/vw_perm
