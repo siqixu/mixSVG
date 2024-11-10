@@ -32,8 +32,10 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
              #----------------- permutation
             
             res2_perm = numeric()
+            tau = par['tau']
+            res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
             for(i_perm in 1:ncol(perm_sample)){
-              
+
               eps_perm = tau*res_perm[,i_perm]
               eta_perm = as.vector(X %*% beta)  + eps_perm + log(libsize)
               mu_perm = exp(eta_perm)
