@@ -12,11 +12,8 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
 
-
-res_std = res * (sqrt(vw))
-res_std = matrix(res_std[perm_sample], nrow = nrow(perm_sample))
-res2_perm = (res_std/sqrt(vw))^2
-
+res2_perm = rnorm(1000*length(y), 0, sqrt(1/vw))^2
+res2_perm = matrix(res2_perm, nrow = nrow(perm_sample))
   
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
