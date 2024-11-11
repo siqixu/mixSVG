@@ -14,7 +14,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     P = diag(1/vw) - t(t(1/vw))%*%t(1/vw)/sum(vw)
 # res_std = res * (sqrt(vw))  
 res_std = solve(P)%*% res /(sqrt(vw)) 
-res2_perm = ((P)%*%res_std[,perm_sample]*sqrt(vw))^2
+res2_perm = ((P)%*%res_std[perm_sample]*sqrt(vw))^2
 
   
     test_func = function(i_pat) {
