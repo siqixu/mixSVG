@@ -17,7 +17,7 @@ if (vtest) {
   res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
   for(i_perm in 1:ncol(perm_sample)){
     
-    eps_perm = tau*res_perm[,i_perm]
+    eps_perm =  rnorm(length(y),0,sqrt(tau)) # tau*res_perm[,i_perm]
     eta_perm = as.vector(X %*% beta)  + eps_perm + log(libsize)
     mu_perm = exp(eta_perm)
     
