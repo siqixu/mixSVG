@@ -11,15 +11,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
-    P = diag(1/vw) - t(t(1/vw))%*%t(1/vw)/sum(vw)
-D = P %*% diag(vw) %*% t(P)
-E <- eigen(D)
-V <- E$vectors; U <- solve(V)
-B <- V %*% diag((E$values)^(1/2)) %*% U
-res_std = solve(B)%*% res 
-res_std = matrix(res_std[perm_sample], nrow = nrow(perm_sample))
-res2_perm = (B%*%res_std)^2
-
 
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
