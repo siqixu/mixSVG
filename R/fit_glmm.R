@@ -43,7 +43,7 @@ fit_glmm = function(y, X, model_init, libsize, n_iter = 1000, tol = 1e-4){
       H = trPP/2 - yPPPy
       
       GHiv = G/H
-      if(abs(GHiv) > max(1, 0.5*tau) ){GHiv = sign(GHiv)*0.01} 
+      if(abs(GHiv) > max(1, 0.5*tau) ){GHiv = sign(GHiv)*0.1} 
       while (tau - GHiv < 0) {
         GHiv = GHiv*0.5
       }
