@@ -11,7 +11,27 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
-
+if (vtest) {
+  res2_perm = numeric()
+  tau = par['tau']
+  res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
+  for(i_perm in 1:ncol(perm_sample)){
+    
+    eps_perm =  rnorm(length(y),0,sqrt(tau)) # tau*res_perm[,i_perm]
+    eta_perm = beta + eps_perm + log(libsize)  # as.vector(X %*% beta) 
+    mu_perm = exp(eta_perm)
+    
+    y_perm = rpois(length(y), mu_perm)
+    # model_init = glm(y_perm ~ X - 1 + offset(log(libsize)), family = poisson)
+    model0 = fit_glmm(y_perm, X, model_init, libsize)
+    
+    beta = model0$par[1, ][1:ncol(X)]
+    w = model0$w
+    vw = model0$vw
+    XVivX_iv = solve(t(X/vw)%*%X)
+    res2_perm = cbind(res2_perm,((w - X %*% beta)/vw)^2)
+  }
+}
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
         s2 = s_trans[, (2 * i_pat)]
