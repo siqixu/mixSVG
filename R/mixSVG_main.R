@@ -27,31 +27,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
         if (vtest) {
             s_sq = s1_sq + s2_sq
             Tv = sum(res2 * s_sq)
-
-
-             #----------------- permutation
-            
-            res2_perm = numeric()
-            tau = par['tau']
-            res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
-            for(i_perm in 1:ncol(perm_sample)){
-
-              eps_perm = tau*res_perm[,i_perm]
-              eta_perm = as.vector(X %*% beta)  + eps_perm + log(libsize)
-              mu_perm = exp(eta_perm)
-              
-              y_perm = rpois(length(y), mu_perm)
-              # model_init = glm(y_perm ~ X - 1 + offset(log(libsize)), family = poisson)
-              model0 = fit_glmm(y_perm, X, model_init, libsize)
-              
-              beta = model0$par[1, ][1:ncol(X)]
-              w = model0$w
-              vw = model0$vw
-              XVivX_iv = solve(t(X/vw)%*%X)
-              res2_perm = cbind(res2_perm,((w - X %*% beta)/vw)^2)
-            }
-          #-----------------
-            
             Tv_perm = colSums(res2_perm * s_sq)
             ETv = mean(Tv_perm)
             DTv = var(Tv_perm)
