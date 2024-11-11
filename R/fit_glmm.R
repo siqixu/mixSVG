@@ -19,8 +19,8 @@ fit_glmm = function(y, X, model_init, libsize, n_iter = 1000, tol = 1e-4){
     mu[is.infinite(mu)] = median(mu)
     w = (1/mu)*(y-mu) + eta - offset
     vw = 1/mu + tau
-    w[abs(w)>1000] = median(w)
-    vw[vw>1000] = median(vw)
+    w[abs(w)>10000] = median(w)
+    vw[vw>10000] = median(vw)
     
     if(any(vw==Inf)|any(abs(w)==Inf)){
       break
@@ -43,7 +43,7 @@ fit_glmm = function(y, X, model_init, libsize, n_iter = 1000, tol = 1e-4){
       H = trPP/2 - yPPPy
       
       GHiv = G/H
-      #if(abs(GHiv) > max(1, 0.5*tau) ){GHiv = sign(GHiv)*0.1} 
+      if(abs(GHiv) > max(1, 0.5*tau) ){GHiv = sign(GHiv)*0.01} 
       while (tau - GHiv < 0) {
         GHiv = GHiv*0.5
       }
