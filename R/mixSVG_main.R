@@ -7,6 +7,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     tau = par['tau']
     w = model0$w
     vw = model0$vw
+    mu =  model0$mu
     XVivX_iv = solve(t(X/vw)%*%X)
     res = (w - X %*% beta)/vw
     res2 = res^2
@@ -35,10 +36,9 @@ if (vtest) {
       tau_perm =  model0$par[1, ]['tau']
      
       if(j==3){
-        w = model0$w
-        vw = model0$vw
-        XVivX_iv = solve(t(X/vw)%*%X)
-        res2_perm = cbind(res2_perm,((w - X %*% beta_perm)/vw)^2)
+        w_perm = model0$w
+        vw_perm = model0$vw
+        res2_perm = cbind(res2_perm,((w_perm - X %*% beta_perm)/vw_perm)^2)
       }
       
       Beta_perm = c(Beta_perm, beta_perm)
@@ -97,7 +97,7 @@ if (vtest) {
     T_final = mean(tan(pi * (0.5 - pval)))
     pval = 1 - pcauchy(T_final)
     out = list(model0 = par, pval = pval, pval_pat = pval_pat, 
-        pattern = pat_name, res = res, vw = vw, mu = model0$mu, w = w, 
+        pattern = pat_name, res = res, vw = vw, mu = mu, w = w, 
                Beta_perm = Beta_perm, Tau_perm = Tau_perm)
     return(out)
 }
