@@ -32,11 +32,9 @@ if (vtest) {
     w_perm = model0$w
     vw_perm = model0$vw
     res2_perm = cbind(res2_perm,((w_perm - X %*% beta_perm)/vw_perm)^2)
-    Vw_perm = c(Vw_perm,vw_perm)
+    Vw_perm = cbind(Vw_perm,vw_perm)
   }
   
-  ETv0_perm = colMeans(res2_perm)
-  DTv0_perm = apply(res2_perm, 2, var)
   
 }
 
@@ -60,6 +58,7 @@ if (vtest) {
             #Tv_perm = colSums(res2_perm * s_sq)
             #ETv = mean(Tv_perm)
             #DTv = var(Tv_perm)
+
 
 n = length(y)
 J = rep(1,n)
@@ -94,13 +93,17 @@ ETv = mm[1]
 DTv = mm[2]    
 
 
-mm_perm = apply(Vw_perm, 2, mm, s1=s1, s2=s2)
-ETv_perm =  mean(mm_perm[,1])
-DTv_perm =  mean(mm_perm[,2])
+mm_perm = apply(Vw_perm, 2, moment, s1=s1, s2=s2)
+ETv_perm =  mean(mm_perm[1,])
+DTv_perm =  mean(mm_perm[2,])
 
 
-ETv = ETv - ETv_perm + ETv0_perm
-DTv = DTv - DTv_perm + DTv0_perm
+   Tv_perm = colSums(res2_perm * s_sq)         
+  ETv0_perm = mean(Tv_perm)
+  DTv0_perm = var(Tv_perm)
+            
+#ETv = ETv - mean(ETv_perm) + ETv0_perm
+#DTv = DTv - mean(DTv_perm) + DTv0_perm
 
             
             k = DTv/(2 * ETv)
