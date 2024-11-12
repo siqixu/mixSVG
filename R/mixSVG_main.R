@@ -16,7 +16,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
 
 Beta_perm = Tau_perm = numeric()
 if (vtest) {
-  
+  set.seed(0)
   for(j in 1:3){
     res2_perm = numeric()
     Beta_perm = Tau_perm = numeric()
