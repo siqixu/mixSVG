@@ -101,6 +101,11 @@ DTv_perm =  mean(mm_perm[2,])
    Tv_perm = colSums(res2_perm * s_sq)         
   ETv0_perm = mean(Tv_perm)
   DTv0_perm = var(Tv_perm)
+
+ETv_est = ETv
+DTv_est = DTv      
+ETv_bias =  mean(ETv_perm) - ETv0_perm
+DTv_bias =  mean(DTv_perm) - DTv0_perm
             
 ETv = ETv - mean(ETv_perm) + ETv0_perm
 DTv = DTv - mean(DTv_perm) + DTv0_perm
@@ -132,6 +137,7 @@ DTv = DTv - mean(DTv_perm) + DTv0_perm
     T_final = mean(tan(pi * (0.5 - pval)))
     pval = 1 - pcauchy(T_final)
     out = list(model0 = par, pval = pval, pval_pat = pval_pat, 
-        pattern = pat_name, res = res, vw = vw, mu = mu, w = w, Tv = Tv)
+        pattern = pat_name, res = res, vw = vw, mu = mu, w = w, Tv = Tv, ETv_est = ETv_est, DTv_est = DTv_est, ETv=ETv, DTv=DTv,
+               ETv_bias=ETv_bias, DTv_bias=DTv_bias  )
     return(out)
 }
