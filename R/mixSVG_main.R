@@ -15,10 +15,13 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
 
 Beta_perm = Tau_perm = numeric()
 if (vtest) {
-  res2_perm = numeric()
+  
+  for(j in 1:3){
+    res2_perm = numeric()
+    Beta_perm = Tau_perm = numeric()
     
-  for(j in 1:4){
     for(i_perm in 1:ncol(perm_sample)){
+      
       eps_perm =  rnorm(length(y),0,sqrt(tau)) 
       eta_perm = beta + eps_perm + log(libsize)  
       mu_perm = exp(eta_perm)
@@ -28,12 +31,13 @@ if (vtest) {
       
       beta_perm = model0$par[1, ][1:ncol(X)]
       tau_perm =  model0$par[1, ]['tau']
-      Beta_perm = c(Beta_perm, beta_perm)
-      Tau_perm = c(Tau_perm, tau_perm)
-      
+     
       w = model0$w
       vw = model0$vw
       XVivX_iv = solve(t(X/vw)%*%X)
+      
+      Beta_perm = c(Beta_perm, beta_perm)
+      Tau_perm = c(Tau_perm, tau_perm)
       res2_perm = cbind(res2_perm,((w - X %*% beta_perm)/vw)^2)
     }
     tau = 2*tau - mean(Tau_perm)
