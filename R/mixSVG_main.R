@@ -45,7 +45,7 @@ if (vtest) {
       Tau_perm = c(Tau_perm, tau_perm)
       
     }
-    tau = 2*tau - mean(Tau_perm)
+    tau = max(2*tau - mean(Tau_perm),0)
     beta = 2*beta - mean(Beta_perm)
   }
   
