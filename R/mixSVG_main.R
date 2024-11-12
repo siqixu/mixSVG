@@ -1,4 +1,4 @@
-mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop){
+mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop, J){
     vtest = (mean(y == 0) < vtest_zero_prop)
     model_init = glm(y ~ X - 1 + offset(log(libsize)), family = poisson)
     model0 = fit_glmm(y, X, model_init, libsize)
@@ -17,12 +17,12 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
 Beta_perm = Tau_perm = numeric()
 if (vtest) {
   set.seed(0)
-  for(j in 1:3){
+  for(j in 1:J){
     res2_perm = numeric()
     Beta_perm = Tau_perm = numeric()
     
     I = 100
-    if(j==3){I = ncol(perm_sample)}
+    if(j==J){I = ncol(perm_sample)}
     for(i_perm in 1:I){
       
       eps_perm =  rnorm(length(y),0,sqrt(tau)) 
@@ -35,7 +35,7 @@ if (vtest) {
       beta_perm = model0$par[1, ][1:ncol(X)]
       tau_perm =  model0$par[1, ]['tau']
      
-      if(j==3){
+      if(j==J){
         w_perm = model0$w
         vw_perm = model0$vw
         res2_perm = cbind(res2_perm,((w_perm - X %*% beta_perm)/vw_perm)^2)
