@@ -61,7 +61,7 @@ fit_glmm = function(y, X, model_init, libsize, n_iter = 1000, tol = 1e-4){
     converge = model_init$converged
     iter =  model_init$iter
     
-    eta = X %*% beta + rep(0,nrow(y)) + offset
+    eta = X %*% beta + rep(0,n) + offset
     eta = as.vector(eta)
     mu = exp(eta)
     w = (1/mu)*(y-mu) + eta - offset
