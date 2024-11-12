@@ -25,8 +25,8 @@ if (vtest) {
     if(j==J){I = ncol(perm_sample)}
     for(i_perm in 1:I){
       
-      eps_perm =  rnorm(length(y),0,sqrt(tau)) 
-      eta_perm = beta + eps_perm + log(libsize)  
+      eps_perm =  rnorm(length(y),0,sqrt(1)) 
+      eta_perm = -10 + eps_perm + log(libsize)  
       mu_perm = exp(eta_perm)
       
       y_perm = as.matrix(rpois(length(y), mu_perm))
