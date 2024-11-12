@@ -14,47 +14,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
     
-Beta_perm = Tau_perm = Vw_perm=numeric()
-if (vtest) {
-  set.seed(0)
-  for(j in 1:3){
-    res2_perm = numeric()
-    Beta_perm = Tau_perm = numeric()
-    
-    I = 100
-    if(j==3){I = ncol(perm_sample)}
-    for(i_perm in 1:I){
-      
-      eps_perm =  rnorm(length(y),0,sqrt(tau)) 
-      eta_perm = beta + eps_perm + log(libsize)  
-      mu_perm = exp(eta_perm)
-      
-      y_perm = as.matrix(rpois(length(y), mu_perm))
-      model0 = fit_glmm(y_perm, X, model_init, libsize)
-      
-      beta_perm = model0$par[1, ][1:ncol(X)]
-      tau_perm =  model0$par[1, ]['tau']
-      
-      if(j==3){
-        w_perm = model0$w
-        vw_perm = model0$vw
-        res2_perm = cbind(res2_perm,((w_perm - X %*% beta_perm)/vw_perm)^2)
-        Vw_perm = cbind(Vw_perm,vw_perm)
-      }
-      
-      Beta_perm = c(Beta_perm, beta_perm)
-      Tau_perm = c(Tau_perm, tau_perm)
-      
-    }
-    # tau = max(par['tau'] - mean(Tau_perm) + tau, 0)
-    # beta = par[1:ncol(X)] - mean(Beta_perm) + beta
-    tau = max(par['tau']/mean(Tau_perm)*tau, 0)
-    beta = par[1:ncol(X)]/mean(Beta_perm) * beta
-    
-  }
-  
-}
-
 
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
@@ -71,65 +30,10 @@ if (vtest) {
         if (vtest) {
             s_sq = s1_sq + s2_sq
             Tv = sum(res2 * s_sq)
-            #Tv_perm = colSums(res2_perm * s_sq)
-            #ETv = mean(Tv_perm)
-           # DTv = var(Tv_perm)
-
-
-
-n = length(y)
-J = rep(1,n)
-
-moment = function(s1,s2,vw){
-  JVinvJ=sum(1/vw)
-  JVinv.X1=sum(s1/vw)
-  A1=(s1^2+s2^2)/vw
-  JVinvA1.J=sum(A1/vw)
-  
-  XVinX =sum(1/vw)
-  XVin2X =sum(1/vw^2)
-  XVin3X =sum(1/vw^3)
-  XVin2XK =sum((s1^2+s2^2)/vw^2)
-  XVin3XK =sum((s1^2+s2^2)/vw^3)
-  
-  trPK = sum(A1) - sum((s1^2+s2^2)/vw^2)/XVinX
-  trPP = sum(1/vw^2) - 2*XVin3X/XVinX + (XVin2X/XVinX)^2
-  trPKP = XVin2XK -2*XVin3XK/XVinX + XVin2X*XVin2XK/XVinX^2
-  trPKPK  = sum(A1^2)-2*sum(A1^2/vw)/JVinvJ + (JVinvA1.J/JVinvJ)^2
-  
-  
-  ETv = trPK
-  DTv = 2*trPKPK  - 2*trPKP^2/trPP
-  
-  return(c(ETv,DTv))
-}
-
-
-mm = moment(s1,s2,vw)
-ETv = mm[1]
-DTv = mm[2]    
-
-
-mm_perm = apply(Vw_perm, 2, moment, s1=s1, s2=s2)
-ETv_perm =  mean(mm_perm[1,])
-DTv_perm =  mean(mm_perm[2,])
-
-
-Tv_perm = colSums(res2_perm * s_sq)         
-ETv0_perm = mean(Tv_perm)
-DTv0_perm = var(Tv_perm)
-
-ETv_est = ETv
-DTv_est = DTv      
-ETv_bias =  mean(ETv_perm) - ETv0_perm
-DTv_bias =  mean(DTv_perm) - DTv0_perm
-
-ETv = ETv / mean(ETv_perm) * ETv0_perm
-DTv = DTv/mean(DTv_perm) * DTv0_perm
-#DTv = DTv - (mean(DTv_perm) - DTv0_perm)*(DTv/mean(DTv_perm))
-
-            
-            
+            Tv_perm = colSums(res2_perm * s_sq)
+            ETv = mean(Tv_perm)
+            DTv = var(Tv_perm)
+   
             k = DTv/(2 * ETv)
             df = 2 * ETv^2/(DTv)
             pval_v = c(pchisq(Tv/k, df, lower.tail = FALSE), pchisq(Tv/k, df, lower.tail = TRUE))
