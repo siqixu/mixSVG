@@ -11,32 +11,39 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
+
 Beta_perm = Tau_perm = numeric()
 if (vtest) {
   res2_perm = numeric()
-  tau = 4.5 #par['tau']
+  tau = par['tau']
   res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
-  for(i_perm in 1:ncol(perm_sample)){
-    
-    eps_perm =  rnorm(length(y),0,sqrt(tau)) # tau*res_perm[,i_perm]
-    eta_perm = -7.6 + eps_perm + log(libsize)  # as.vector(X %*% beta) 
-    mu_perm = exp(eta_perm)
-    
-    y_perm = rpois(length(y), mu_perm)
-    # model_init = glm(y_perm ~ X - 1 + offset(log(libsize)), family = poisson)
-    model0 = fit_glmm(y_perm, X, model_init, libsize)
-    
-    beta_perm = model0$par[1, ][1:ncol(X)]
-    tau_perm =  model0$par[1, ]['tau']
-    Beta_perm = c(Beta_perm, beta_perm)
-    Tau_perm = c(Tau_perm, tau_perm)
-    
-    w = model0$w
-    vw = model0$vw
-    XVivX_iv = solve(t(X/vw)%*%X)
-    res2_perm = cbind(res2_perm,((w - X %*% beta_perm)/vw)^2)
+  
+  for(j in 1:3){
+    for(i_perm in 1:10){
+      
+      eps_perm =  rnorm(length(y),0,sqrt(tau)) 
+      eta_perm = beta + eps_perm + log(libsize)  
+      mu_perm = exp(eta_perm)
+      
+      y_perm = rpois(length(y), mu_perm)
+      model0 = fit_glmm(y_perm, X, model_init, libsize)
+      
+      beta_perm = model0$par[1, ][1:ncol(X)]
+      tau_perm =  model0$par[1, ]['tau']
+      Beta_perm = c(Beta_perm, beta_perm)
+      Tau_perm = c(Tau_perm, tau_perm)
+      
+      w = model0$w
+      vw = model0$vw
+      XVivX_iv = solve(t(X/vw)%*%X)
+      res2_perm = cbind(res2_perm,((w - X %*% beta_perm)/vw)^2)
+    }
+    tau = 2*tau - mean(Tau_perm)
+    beta = 2*beta - mean(Beta_perm)
   }
+  
 }
+
     
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
