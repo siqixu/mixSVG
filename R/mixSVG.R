@@ -7,7 +7,6 @@ mixSVG = function(count,
                   vtest_zero_prop = 0.995,
                   ncore = 10,
                   n_perm = 1000,
-                  J = 3,
                   sig = 0.05,
                   c_gau = c(-1,0,1), c_cos = c(0,0.5,1), 
                   l_gau = c(0.1,1), l_cos = c(0.5,1),
@@ -85,7 +84,7 @@ for(transfunc in c('gaussian', 'cosine')){
   results <- foreach(gi = 1:ngene) %dopar% {
     # gi = 1
     y = as.matrix(count[gi,])
-    results = mixSVG_main(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop, J)
+    results = mixSVG_main(y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop)
   }
   names(results) = rownames(count)
 
