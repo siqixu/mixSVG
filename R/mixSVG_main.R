@@ -45,8 +45,8 @@ if (vtest) {
       Tau_perm = c(Tau_perm, tau_perm)
       
     }
-    tau = max(2*tau - mean(Tau_perm),0)
-    beta = 2*beta - mean(Beta_perm)
+    tau = max(par['tau'] - mean(Tau_perm) + tau, 0)
+    beta = par[1:ncol(X)] - mean(Beta_perm) + beta
   }
   
 }
