@@ -20,7 +20,9 @@ if (vtest) {
     res2_perm = numeric()
     Beta_perm = Tau_perm = numeric()
     
-    for(i_perm in 1:ncol(perm_sample)){
+    I = 100
+    if(j==3){I = ncol(perm_sample)}
+    for(i_perm in 1:I){
       
       eps_perm =  rnorm(length(y),0,sqrt(tau)) 
       eta_perm = beta + eps_perm + log(libsize)  
@@ -32,19 +34,23 @@ if (vtest) {
       beta_perm = model0$par[1, ][1:ncol(X)]
       tau_perm =  model0$par[1, ]['tau']
      
-      w = model0$w
-      vw = model0$vw
-      XVivX_iv = solve(t(X/vw)%*%X)
+      if(j==3){
+        w = model0$w
+        vw = model0$vw
+        XVivX_iv = solve(t(X/vw)%*%X)
+        res2_perm = cbind(res2_perm,((w - X %*% beta_perm)/vw)^2)
+      }
       
       Beta_perm = c(Beta_perm, beta_perm)
       Tau_perm = c(Tau_perm, tau_perm)
-      res2_perm = cbind(res2_perm,((w - X %*% beta_perm)/vw)^2)
+      
     }
     tau = 2*tau - mean(Tau_perm)
     beta = 2*beta - mean(Beta_perm)
   }
   
 }
+
 
     
     test_func = function(i_pat) {
