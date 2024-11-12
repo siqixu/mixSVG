@@ -102,8 +102,8 @@ DTv_perm =  mean(mm_perm[2,])
   ETv0_perm = mean(Tv_perm)
   DTv0_perm = var(Tv_perm)
             
-#ETv = ETv - mean(ETv_perm) + ETv0_perm
-#DTv = DTv - mean(DTv_perm) + DTv0_perm
+ETv = ETv - mean(ETv_perm) + ETv0_perm
+DTv = DTv - mean(DTv_perm) + DTv0_perm
 
             
             k = DTv/(2 * ETv)
@@ -132,6 +132,6 @@ DTv_perm =  mean(mm_perm[2,])
     T_final = mean(tan(pi * (0.5 - pval)))
     pval = 1 - pcauchy(T_final)
     out = list(model0 = par, pval = pval, pval_pat = pval_pat, 
-        pattern = pat_name, res = res, vw = vw, mu = mu, w = w)
+        pattern = pat_name, res = res, vw = vw, mu = mu, w = w, Tv = Tv)
     return(out)
 }
