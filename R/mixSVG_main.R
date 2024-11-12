@@ -1,4 +1,4 @@
-mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop, J){
+mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize, vtest_zero_prop){
     vtest = (mean(y == 0) < vtest_zero_prop)
     model_init = glm(y ~ X - 1 + offset(log(libsize)), family = poisson)
     model0 = fit_glmm(y, X, model_init, libsize)
@@ -13,43 +13,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
-
-Beta_perm = Tau_perm = numeric()
-if (vtest) {
-  set.seed(0)
-  for(j in 1:J){
-    res2_perm = numeric()
-    Beta_perm = Tau_perm = numeric()
-    
-    I = 100
-    if(j==J){I = ncol(perm_sample)}
-    for(i_perm in 1:I){
-      
-      eps_perm =  rnorm(length(y),0,sqrt(tau+0.24)) 
-      eta_perm = beta-0.315 + eps_perm + log(libsize)  
-      mu_perm = exp(eta_perm)
-      
-      y_perm = as.matrix(rpois(length(y), mu_perm))
-      model0 = fit_glmm(y_perm, X, model_init, libsize)
-      
-      beta_perm = model0$par[1, ][1:ncol(X)]
-      tau_perm =  model0$par[1, ]['tau']
-     
-      if(j==J){
-        w_perm = model0$w
-        vw_perm = model0$vw
-        res2_perm = cbind(res2_perm,((w_perm - X %*% beta_perm)/vw_perm)^2)
-      }
-      
-      Beta_perm = c(Beta_perm, beta_perm)
-      Tau_perm = c(Tau_perm, tau_perm)
-      
-    }
-    #tau = max(par['tau'] - mean(Tau_perm) + tau, 0)
-    #beta = par[1:ncol(X)] - mean(Beta_perm) + beta
-  }
-  
-}
 
 
     
@@ -97,7 +60,6 @@ if (vtest) {
     T_final = mean(tan(pi * (0.5 - pval)))
     pval = 1 - pcauchy(T_final)
     out = list(model0 = par, pval = pval, pval_pat = pval_pat, 
-        pattern = pat_name, res = res, vw = vw, mu = mu, w = w, 
-               Beta_perm = Beta_perm, Tau_perm = Tau_perm, tau = tau, beta = beta)
+        pattern = pat_name, res = res, vw = vw, mu = mu, w = w)
     return(out)
 }
