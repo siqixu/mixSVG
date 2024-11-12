@@ -108,7 +108,7 @@ ETv_bias =  mean(ETv_perm) - ETv0_perm
 DTv_bias =  mean(DTv_perm) - DTv0_perm
             
 ETv = ETv - mean(ETv_perm) + ETv0_perm
-DTv = DTv - mean(DTv_perm) + DTv0_perm
+DTv = DTv - (mean(DTv_perm) + DTv0_perm)*(DTv/mean(DTv_perm))
 
             
             k = DTv/(2 * ETv)
