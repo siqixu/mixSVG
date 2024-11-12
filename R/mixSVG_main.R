@@ -29,7 +29,7 @@ if (vtest) {
       eta_perm = beta + eps_perm + log(libsize)  
       mu_perm = exp(eta_perm)
       
-      y_perm = rpois(length(y), mu_perm)
+      y_perm = as.matrix(rpois(length(y), mu_perm))
       model0 = fit_glmm(y_perm, X, model_init, libsize)
       
       beta_perm = model0$par[1, ][1:ncol(X)]
