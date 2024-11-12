@@ -14,12 +14,12 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
 Beta_perm = Tau_perm = numeric()
 if (vtest) {
   res2_perm = numeric()
-  tau = par['tau']
+  tau = 4.5 #par['tau']
   res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
   for(i_perm in 1:ncol(perm_sample)){
     
     eps_perm =  rnorm(length(y),0,sqrt(tau)) # tau*res_perm[,i_perm]
-    eta_perm = beta + eps_perm + log(libsize)  # as.vector(X %*% beta) 
+    eta_perm = -7.6 + eps_perm + log(libsize)  # as.vector(X %*% beta) 
     mu_perm = exp(eta_perm)
     
     y_perm = rpois(length(y), mu_perm)
