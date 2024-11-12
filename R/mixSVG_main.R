@@ -126,18 +126,18 @@ DTv = DTv - mean(DTv_perm) + DTv0_perm
             pval_v = 1
             pval = pval_b
             Tv =  k = df = 0
+            ETv_est = DTv_est = ETv = DTv = ETv_bias = DTv_bias = NULL
         }
-        return(c(pval, pval_b, pval_v,  Tv, k, df))
+        return(c(pval, pval_b, pval_v,  Tv, k, df, ETv_est, DTv_est, ETv, DTv,ETv_bias,DTv_bias))
     }
     pval_pat = t(apply(t(pat_idx), 2, FUN = test_func))
-    colnames(pval_pat) = c("pval_omn", "pval_b", "pval_v",  'Tv', 'k', 'df')
+    colnames(pval_pat) = c("pval_omn", "pval_b", "pval_v",  'Tv', 'k', 'df', 'ETv_est', 'DTv_est', 'ETv', 'DTv','ETv_bias','DTv_bias')
     pval = pval_pat[, "pval_omn"]
     pval[which(pval == 0)] <- 5.55e-17
     pval[which((1 - pval) < 0.001)] <- 0.99
     T_final = mean(tan(pi * (0.5 - pval)))
     pval = 1 - pcauchy(T_final)
     out = list(model0 = par, pval = pval, pval_pat = pval_pat, 
-        pattern = pat_name, res = res, vw = vw, mu = mu, w = w, Tv = Tv, ETv_est = ETv_est, DTv_est = DTv_est, ETv=ETv, DTv=DTv,
-               ETv_bias=ETv_bias, DTv_bias=DTv_bias  )
+        pattern = pat_name, res = res, vw = vw, mu = mu, w = w  )
     return(out)
 }
