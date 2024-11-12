@@ -25,8 +25,8 @@ if (vtest) {
     if(j==J){I = ncol(perm_sample)}
     for(i_perm in 1:I){
       
-      eps_perm =  rnorm(length(y),0,sqrt(1)) 
-      eta_perm = -5 + eps_perm + log(libsize)  
+      eps_perm =  rnorm(length(y),0,sqrt(tau)) 
+      eta_perm = beta + eps_perm + log(libsize)  
       mu_perm = exp(eta_perm)
       
       y_perm = as.matrix(rpois(length(y), mu_perm))
@@ -98,6 +98,6 @@ if (vtest) {
     pval = 1 - pcauchy(T_final)
     out = list(model0 = par, pval = pval, pval_pat = pval_pat, 
         pattern = pat_name, res = res, vw = vw, mu = mu, w = w, 
-               Beta_perm = Beta_perm, Tau_perm = Tau_perm)
+               Beta_perm = Beta_perm, Tau_perm = Tau_perm, tau = tau, beta = beta)
     return(out)
 }
