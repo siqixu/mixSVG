@@ -25,8 +25,8 @@ if (vtest) {
     if(j==J){I = ncol(perm_sample)}
     for(i_perm in 1:I){
       
-      eps_perm =  rnorm(length(y),0,sqrt(tau)) 
-      eta_perm = beta + eps_perm + log(libsize)  
+      eps_perm =  rnorm(length(y),0,sqrt(tau+0.24)) 
+      eta_perm = beta-0.315 + eps_perm + log(libsize)  
       mu_perm = exp(eta_perm)
       
       y_perm = as.matrix(rpois(length(y), mu_perm))
@@ -45,8 +45,8 @@ if (vtest) {
       Tau_perm = c(Tau_perm, tau_perm)
       
     }
-    tau = max(par['tau'] - mean(Tau_perm) + tau, 0)
-    beta = par[1:ncol(X)] - mean(Beta_perm) + beta
+    #tau = max(par['tau'] - mean(Tau_perm) + tau, 0)
+    #beta = par[1:ncol(X)] - mean(Beta_perm) + beta
   }
   
 }
