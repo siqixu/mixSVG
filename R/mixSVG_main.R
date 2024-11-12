@@ -18,7 +18,7 @@ if (vtest) {
   res2_perm = numeric()
     
   for(j in 1:4){
-    for(i_perm in 1:ncol(perm_sample){
+    for(i_perm in 1:ncol(perm_sample)){
       eps_perm =  rnorm(length(y),0,sqrt(tau)) 
       eta_perm = beta + eps_perm + log(libsize)  
       mu_perm = exp(eta_perm)
