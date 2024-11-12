@@ -14,6 +14,32 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
 
+if (vtest) {
+  
+  res2_perm = Vw_perm = numeric()
+ 
+  for(i_perm in 1:ncol(perm_sample)){
+    
+    eps_perm =  rnorm(length(y),0,sqrt(tau)) # tau*res_perm[,i_perm]
+    eta_perm = beta + eps_perm + log(libsize)  # as.vector(X %*% beta) 
+    mu_perm = exp(eta_perm)
+    
+    y_perm = rpois(length(y), mu_perm)
+    model0 = fit_glmm(y_perm, X, model_init, libsize)
+    
+    beta_perm = model0$par[1, ][1:ncol(X)]
+    
+    w_perm = model0$w
+    vw_perm = model0$vw
+    res2_perm = cbind(res2_perm,((w_perm - X %*% beta_perm)/vw_perm)^2)
+    Vw_perm = c(Vw_perm,vw_perm)
+  }
+  
+  ETv0_perm = colMeans(res2_perm)
+  DTv0_perm = apply(res2_perm, 2, var)
+  
+}
+
 
     
     test_func = function(i_pat) {
@@ -31,9 +57,52 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
         if (vtest) {
             s_sq = s1_sq + s2_sq
             Tv = sum(res2 * s_sq)
-            Tv_perm = colSums(res2_perm * s_sq)
-            ETv = mean(Tv_perm)
-            DTv = var(Tv_perm)
+            #Tv_perm = colSums(res2_perm * s_sq)
+            #ETv = mean(Tv_perm)
+            #DTv = var(Tv_perm)
+
+n = length(y)
+J = rep(1,n)
+
+moment = function(s1,s2,vw){
+  JVinvJ=sum(1/vw)
+  JVinv.X1=sum(s1/vw)
+  A1=(s1^2+s2^2)/vw
+  JVinvA1.J=sum(A1/vw)
+  
+  XVinX =sum(1/vw)
+  XVin2X =sum(1/vw^2)
+  XVin3X =sum(1/vw^3)
+  XVin2XK =sum((s1^2+s2^2)/vw^2)
+  XVin3XK =sum((s1^2+s2^2)/vw^3)
+  
+  trPK = sum(A1) - sum((s1^2+s2^2)/vw^2)/XVinX
+  trPP = sum(1/vw^2) - 2*XVin3X/XVinX + (XVin2X/XVinX)^2
+  trPKP = XVin2XK -2*XVin3XK/XVinX + XVin2X*XVin2XK/XVinX^2
+  trPKPK  = sum(A1^2)-2*sum(A1^2/vw)/JVinvJ + (JVinvA1.J/JVinvJ)^2
+
+  
+  ETv = trPK
+  DTv = 2*trPKPK  - 2*trPKP^2/trPP
+  
+  return(c(ETv,DTv))
+}
+
+
+mm = moment(s1,s2,vw)
+ETv = mm[1]
+DTv = mm[2]    
+
+
+mm_perm = apply(Vw_perm, 2, mm, s1=s1, s2=s2)
+ETv_perm =  mean(mm_perm[,1])
+DTv_perm =  mean(mm_perm[,2])
+
+
+ETv = ETv - ETv_perm + ETv0_perm
+DTv = DTv - DTv_perm + DTv0_perm
+
+            
             k = DTv/(2 * ETv)
             df = 2 * ETv^2/(DTv)
             pval_v = c(pchisq(Tv/k, df, lower.tail = FALSE), pchisq(Tv/k, df, lower.tail = TRUE))
