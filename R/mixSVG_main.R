@@ -13,7 +13,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
-
+ETv_est = DTv_est = ETv = DTv = ETv_bias = DTv_bias = NULL
 if (vtest) {
   
   res2_perm = Vw_perm = numeric()
