@@ -4,6 +4,7 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     model0 = fit_glmm(y, X, model_init, libsize)
     par = model0$par[1, ]
     beta = par[1:ncol(X)]
+    tau = par['tau']
     w = model0$w
     vw = model0$vw
     XVivX_iv = solve(t(X/vw)%*%X)
@@ -15,12 +16,9 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
 Beta_perm = Tau_perm = numeric()
 if (vtest) {
   res2_perm = numeric()
-  tau = par['tau']
-  res_perm = matrix(res[perm_sample], nrow = nrow(perm_sample))
-  
-  for(j in 1:3){
-    for(i_perm in 1:10){
-      
+    
+  for(j in 1:4){
+    for(i_perm in 1:ncol(perm_sample){
       eps_perm =  rnorm(length(y),0,sqrt(tau)) 
       eta_perm = beta + eps_perm + log(libsize)  
       mu_perm = exp(eta_perm)
