@@ -14,8 +14,8 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
 eps = rep(0,n)
-beta = beta-0.24
-tau = tau+0.2
+beta = -6
+tau = 1
 offset = log(libsize)
 # iteration 
 for(iter in 1:100) {
