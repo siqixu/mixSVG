@@ -5,11 +5,11 @@ fit_glmm = function(y, X, model_init, libsize, n_iter = 1000, tol = 1e-4){
   
   # initialize 
   eps = rep(0,n)
-  beta_init = beta = -6 # model_init$coeff
+  beta_init = beta =  model_init$coeff
   eta = X %*% beta  + eps + offset
   mu = exp(eta)
   w = (1/mu)*(y-mu) + eta - offset
-  tau_init = tau = 1 # 0
+  tau_init = tau = 0
   
   # iteration 
   for(iter in 1:n_iter) {
