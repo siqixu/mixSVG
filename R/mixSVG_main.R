@@ -13,29 +13,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
-eps = rep(0,n)
-beta = -6
-tau = 1
-offset = log(libsize)
-# iteration 
-for(iter in 1:100) {
-  eta = X %*% beta  + eps + offset
-  eta = as.vector(eta)
-  mu = exp(eta)
-  #mu[is.infinite(mu)] = median(mu)
-  w = (1/mu)*(y-mu) + eta - offset
-  vw = 1/mu + tau
-  #w[abs(w)>1000] = median(w)
-  #vw[vw>1000] = median(vw)
-  
-  res = (w - X %*% beta)/vw
-  eps = tau*res    
-  
-}
-XVivX_iv = solve(t(X/vw)%*%X)
- res2 = res^2
-res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
-
 
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
@@ -55,28 +32,6 @@ res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
             Tv_perm = colSums(res2_perm * s_sq)
             ETv = mean(Tv_perm)
             DTv = var(Tv_perm)
-
-  n = length(y)
-  J = rep(1,n)
-  JVinvJ=sum(1/vw)
-  JVinv.X1=sum(s1/vw)
-  A1=(s1^2+s2^2)/vw
-  JVinvA1.J=sum(A1/vw)
-  
-  XVinX =sum(1/vw)
-  XVin2X =sum(1/vw^2)
-  XVin3X =sum(1/vw^3)
-  XVin2XK =sum((s1^2+s2^2)/vw^2)
-  XVin3XK =sum((s1^2+s2^2)/vw^3)
-  
-  trPK = sum(A1) - sum((s1^2+s2^2)/vw^2)/XVinX
-  trPP = sum(1/vw^2) - 2*XVin3X/XVinX + (XVin2X/XVinX)^2
-  trPKP = XVin2XK -2*XVin3XK/XVinX + XVin2X*XVin2XK/XVinX^2
-  trPKPK  = sum(A1^2)-2*sum(A1^2/vw)/JVinvJ + (JVinvA1.J/JVinvJ)^2
-  
-  ETv = trPK
-  DTv = 2*trPKPK - 2*trPKP^2/trPP
-            
    
             k = DTv/(2 * ETv)
             df = 2 * ETv^2/(DTv)
