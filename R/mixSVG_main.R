@@ -49,7 +49,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
             pval_v = 1
             pval = pval_b
             Tv =  k = df = 0
-            ETv_est = DTv_est = ETv = DTv = ETv_bias = DTv_bias = NULL
         }
         return(c(pval, pval_b, pval_v,  Tv, k, df))
     }
