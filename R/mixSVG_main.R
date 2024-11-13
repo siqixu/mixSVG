@@ -13,7 +13,27 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
-    
+eps = rep(0,n)
+beta = beta-0.24
+tau = tau+0.2
+# iteration 
+for(iter in 1:n_iter) {
+  eta = X %*% beta  + eps + offset
+  eta = as.vector(eta)
+  mu = exp(eta)
+  mu[is.infinite(mu)] = median(mu)
+  w = (1/mu)*(y-mu) + eta - offset
+  vw = 1/mu + tau
+  w[abs(w)>1000] = median(w)
+  vw[vw>1000] = median(vw)
+  
+  res = (w - X %*% beta)/vw
+  eps = tau*res    
+  
+}
+ res2 = res^2
+res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
+
 
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
