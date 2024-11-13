@@ -17,7 +17,7 @@ eps = rep(0,n)
 beta = beta-0.24
 tau = tau+0.2
 # iteration 
-for(iter in 1:n_iter) {
+for(iter in 1:100) {
   eta = X %*% beta  + eps + offset
   eta = as.vector(eta)
   mu = exp(eta)
