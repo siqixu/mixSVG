@@ -22,11 +22,11 @@ for(iter in 1:100) {
   eta = X %*% beta  + eps + offset
   eta = as.vector(eta)
   mu = exp(eta)
-  mu[is.infinite(mu)] = median(mu)
+  #mu[is.infinite(mu)] = median(mu)
   w = (1/mu)*(y-mu) + eta - offset
   vw = 1/mu + tau
-  w[abs(w)>1000] = median(w)
-  vw[vw>1000] = median(vw)
+  #w[abs(w)>1000] = median(w)
+  #vw[vw>1000] = median(vw)
   
   res = (w - X %*% beta)/vw
   eps = tau*res    
