@@ -13,31 +13,6 @@ mixSVG_main <- function (y, X, s_trans, pat_idx, pat_name, perm_sample, libsize,
     res2 = res^2
     res2_perm = matrix(res2[perm_sample], nrow = nrow(perm_sample))
 
-if (vtest) {
-  
-  res2_perm = Vw_perm = numeric()
-  
-  for(i_perm in 1:ncol(perm_sample)){
-    
-    eps_perm =  rnorm(length(y),0,sqrt(tau)) # tau*res_perm[,i_perm]
-    eta_perm = beta + eps_perm + log(libsize)  # as.vector(X %*% beta) 
-    mu_perm = exp(eta_perm)
-    
-    y_perm = rpois(length(y), mu_perm)
-    model0 = fit_glmm(y_perm, X, model_init, libsize)
-    
-    beta_perm = model0$par[1, ][1:ncol(X)]
-    
-    w_perm = model0$w
-    vw_perm = model0$vw
-    res2_perm = cbind(res2_perm,((w_perm - X %*% beta_perm)/vw_perm)^2)
-    Vw_perm = cbind(Vw_perm,vw_perm)
-  }
-  
-  
-}
-
-
     test_func = function(i_pat) {
         s1 = s_trans[, (2 * i_pat - 1)]
         s2 = s_trans[, (2 * i_pat)]
@@ -73,10 +48,10 @@ if (vtest) {
             pval = pval_b
             Tv =  k = df = 0
         }
-        return(c(pval, pval_b, pval_v,  Tv, k, df))
+        return(c(pval, pval_b, pval_v))
     }
     pval_pat = t(apply(t(pat_idx), 2, FUN = test_func))
-    colnames(pval_pat) = c("pval_omn", "pval_b", "pval_v",  'Tv', 'k', 'df')
+    colnames(pval_pat) = c("pval_omn", "pval_b", "pval_v")
     pval = pval_pat[, "pval_omn"]
     pval[which(pval == 0)] <- 5.55e-17
     pval[which((1 - pval) < 0.001)] <- 0.99
